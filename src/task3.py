@@ -7,8 +7,13 @@ from src.utils import load_tweets, load_country_codes
 
 
 def compute_most_complaints_by_country(tweets, country_codes):
+
+    # Filter only negative tweets
+    negative_tweets = tweets.filter(col("airline_sentiment") == "negative")
+    negative_tweets.show()
+
     # Extract country code from Twttier Dataset from the column '_country'
-    twitter_country_count= tweets.groupby(["_country"]).agg(count("_country").alias("count"))
+    twitter_country_count= negative_tweets.groupby(["_country"]).agg(count("_country").alias("count"))
 
     # Join the Twitter Dataset with Country Code Dataset to retrieve country name, country code and count in descending order
     complaints_by_country = twitter_country_count.join(country_codes, twitter_country_count["_country"] == country_codes["code"]) \
