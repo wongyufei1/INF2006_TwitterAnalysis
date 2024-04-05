@@ -1,10 +1,12 @@
+# Contributor: Wong Yu Fei 
+
 import os
 import sys
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import median, mean, round
 
-from src.utils import load_tweets
+from src.utils import load_tweets, convert_data_type
 
 
 def compute_channel_trustpoints_stats(tweets):
@@ -30,7 +32,7 @@ def run():
     tweets = load_tweets(spark, "../data/Twitter_Airline Dataset")
 
     tweets.printSchema()
-    tweets = tweets.withColumn("_trust", tweets["_trust"].cast("float"))
+    tweets = convert_data_type(tweets, "_trust", "float")
 
     channel_trustpoints = compute_channel_trustpoints_stats(tweets)
 
