@@ -1,7 +1,13 @@
 # Import Relevant Libraries
-from pyspark.sql import SparkSession
+import os
+import sys
 
-from utils import load_tweets
+from pyspark.sql import SparkSession
+from utils import load_tweets, convert_data_type
+
+os.environ['PYSPARK_PYTHON'] = sys.executable
+os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
+
 
 """Convert PennTreebank tags to WordNet tags.
 
@@ -41,11 +47,14 @@ def penn_to_wn(tag):
 
 def get_word_sentiment_score(word):
     # Import Relevant Libraries
+
     import nltk
     from nltk.corpus import sentiwordnet as swn
     from nltk.corpus import wordnet as wn
+
     nltk.download('sentiwordnet')
     nltk.download('wordnet')
+    nltk.download('omw-1.4')
     nltk.download('averaged_perceptron_tagger')
     from nltk.stem import WordNetLemmatizer
 
@@ -133,10 +142,10 @@ def score_to_label(score):
 
 def run():
     # Initialize SparkSession
-    spark = SparkSession.builder.appName("DataFrame").getOrCreate()
+    spark = SparkSession.builder.appName("task5").getOrCreate()
 
     # Read the entire file
-    tweets = load_tweets(spark, "../data/Twitter_Airline Dataset")
+    tweets = spark.read.text("../data/Airline-Full-Non-Ag-DFE-Sentiment.csv")
 
     """Preprocessing of text"""
     # Split lines into parts
@@ -193,7 +202,9 @@ def run():
     print("Correctly predicted tweet sentiment = ", correct_predictions)
     accuracy = correct_predictions / total_tweets
 
-    print("Accuracy:", accuracy)
+    with open("../results/task5/accuracy.csv", "w") as file:
+        file.write("accuracy\n")
+        file.write(str(accuracy))
 
 
 if __name__ == "__main__":
