@@ -1,11 +1,13 @@
 # Contributor: Tan Yi Wei Isaac
-# Import Relevant Libraries
+
+"""Import Relevant Libraries"""
 import os
 import sys
-
 from pyspark.sql import SparkSession
 from utils import load_tweets, convert_data_type
 from pyspark.sql import functions as F
+from nltk.tokenize import word_tokenize
+from pyspark.sql.types import StringType, ArrayType
 
 os.environ['PYSPARK_PYTHON'] = sys.executable
 os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
@@ -49,14 +51,15 @@ def penn_to_wn(tag):
 def get_word_sentiment_score(word):
     # Import Relevant Libraries
     import nltk
-    # Uncomment to download relevant files first
+    from nltk.corpus import sentiwordnet as swn
+    from nltk.corpus import wordnet as wn
+    from nltk.stem import WordNetLemmatizer
+    """Uncomment if running file for the first time"""
     # nltk.download('sentiwordnet')
     # nltk.download('wordnet')
     # nltk.download('omw-1.4')
     # nltk.download('averaged_perceptron_tagger')
-    from nltk.corpus import sentiwordnet as swn
-    from nltk.corpus import wordnet as wn
-    from nltk.stem import WordNetLemmatizer
+    # nltk.download('punkt')
 
     # Initialize lemmatizer
     lemmatizer = WordNetLemmatizer()
@@ -134,17 +137,24 @@ def run():
     spark = SparkSession.builder.appName("task5").getOrCreate()
 
     # Load dataset
-    tweets = load_tweets(spark, "../results/task1/part-00000-23db5c69-b7e0-4e42-b029-7d86ce677e0a-c000.csv")
+    tweets = load_tweets(spark, "../data/Twitter_Airline Dataset")
     tweets.printSchema()
     """Obtaining sentiment scores for each tweet in tweet column"""
 
-    # Split the tweet texts into individual words according to _unit_id
+    # # Define a UDF to tokenize the text
+    # tokenize_udf = F.udf(lambda text: word_tokenize(text), ArrayType(StringType()))
+    #
+    # # Apply the UDF to tokenize the text
+    # tweets_with_words = tweets.select("_unit_id", tokenize_udf("text").alias("words"))
+
+    # # Manual vs NLTK tokenization
+    # Split the tweets based on " " delimiter to obtain each word
     tweets_with_words = tweets.select("_unit_id", F.split("text", " ").alias("words"))
 
-    # Explode the array of words into separate rows
+    # Returns a new row for each element in the given array or map
     tweets_with_words = tweets_with_words.select("_unit_id", F.explode("words").alias("word"))
 
-    # Apply the function for each word
+    # Apply the function for each word to obtain the score for each word
     word_scores = tweets_with_words.withColumn("sentiment", F.udf(retrieve_sentiment_scores)("word"))
 
     # Filter out for any None values
@@ -159,13 +169,16 @@ def run():
                                                  .otherwise("neutral").alias("sentiment_label"))
 
     """Preprocessing of sentiment_gold"""
-    # Filter out tweets where tweet[17] is empty or null (*Remove after preprocessing implemented)
-    filtered_tweets = tweets.filter(tweets["airline_sentiment_gold"].isNotNull() | (tweets["airline_sentiment_gold"] != ''))
+    # Filter out gold labelled row which is empty or null
+    filtered_tweets = tweets.filter(
+        tweets["airline_sentiment_gold"].isNotNull() | (tweets["airline_sentiment_gold"] != ''))
 
-    # Join tweet_sentiment_labels with sentiment_gold_filtered
-    joined_data = tweet_sentiment_labels.join(filtered_tweets)
+    # Join tweet_sentiment_labels with sentiment_gold_filtered via _unit_id
+    joined_data = tweet_sentiment_labels.join(filtered_tweets,
+                                              tweet_sentiment_labels["_unit_id"] == filtered_tweets["_unit_id"],
+                                              how="inner")
 
-    # Calculate accuracy
+    """Calculate Accuracy"""
     # Get the total count of tweets
     total_tweets = joined_data.count()
     print("Total tweets = ", total_tweets)
@@ -179,9 +192,9 @@ def run():
     accuracy = correct_predictions / total_tweets
     print("Accuracy of prediction = ", accuracy)
 
-    # with open("../results/task5/accuracy.csv", "w") as file:
-    #     file.write("accuracy\n")
-    #     file.write(str(accuracy))
+    with open("../results/task5/accuracy.csv", "w") as file:
+        file.write("accuracy\n")
+        file.write(str(accuracy))
 
     print("Analysis Completed")
 
