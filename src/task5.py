@@ -1,13 +1,14 @@
+# Contributor: Tan Yi Wei Isaac
 # Import Relevant Libraries
 import os
 import sys
 
 from pyspark.sql import SparkSession
 from utils import load_tweets, convert_data_type
+from pyspark.sql import functions as F
 
 os.environ['PYSPARK_PYTHON'] = sys.executable
 os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
-
 
 """Convert PennTreebank tags to WordNet tags.
 
@@ -47,15 +48,14 @@ def penn_to_wn(tag):
 
 def get_word_sentiment_score(word):
     # Import Relevant Libraries
-
     import nltk
+    # Uncomment to download relevant files first
+    # nltk.download('sentiwordnet')
+    # nltk.download('wordnet')
+    # nltk.download('omw-1.4')
+    # nltk.download('averaged_perceptron_tagger')
     from nltk.corpus import sentiwordnet as swn
     from nltk.corpus import wordnet as wn
-
-    nltk.download('sentiwordnet')
-    nltk.download('wordnet')
-    nltk.download('omw-1.4')
-    nltk.download('averaged_perceptron_tagger')
     from nltk.stem import WordNetLemmatizer
 
     # Initialize lemmatizer
@@ -129,67 +129,43 @@ def retrieve_sentiment_scores(word):
 """
 
 
-def score_to_label(score):
-    if score > 0:
-        return "positive"
-
-    elif score < 0:
-        return "negative"
-
-    else:
-        return "neutral"
-
-
 def run():
     # Initialize SparkSession
     spark = SparkSession.builder.appName("task5").getOrCreate()
 
-    # Read the entire file
-    tweets = spark.read.text("../data/Airline-Full-Non-Ag-DFE-Sentiment.csv")
-
-    """Preprocessing of text"""
-    # Split lines into parts
-    parts = tweets.rdd.map(lambda line: line.value.split(","))
-
-    # Filter for valid parts
-    validParts = parts.filter(lambda line: len(line) >= 22 and line[14] is not None and line[21] is not None)
-
-    # Filter out the header row
-    header = validParts.first()
-
-    # Take out header which is the first row
-    validParts = validParts.filter(lambda line: line != header)
-
+    # Load dataset
+    tweets = load_tweets(spark, "../results/task1/part-00000-23db5c69-b7e0-4e42-b029-7d86ce677e0a-c000.csv")
+    tweets.printSchema()
     """Obtaining sentiment scores for each tweet in tweet column"""
 
-    # Split the tweet texts into individual words
-    tweets_with_words = validParts.map(lambda tweet: (tweet[3], tweet[21].split(" ")))
+    # Split the tweet texts into individual words according to _unit_id
+    tweets_with_words = tweets.select("_unit_id", F.split("text", " ").alias("words"))
+
+    # Explode the array of words into separate rows
+    tweets_with_words = tweets_with_words.select("_unit_id", F.explode("words").alias("word"))
 
     # Apply the function for each word
-    word_scores = tweets_with_words.flatMapValues(
-        lambda words: [(word, retrieve_sentiment_scores(word)) for word in words])
+    word_scores = tweets_with_words.withColumn("sentiment", F.udf(retrieve_sentiment_scores)("word"))
 
     # Filter out for any None values
-    filter_scores = filtered_word_scores = word_scores.filter(lambda x: x[1][1][1] is not None)
+    filtered_word_scores = word_scores.filter(word_scores["sentiment"].isNotNull())
 
     # Calculate the sentiment score for each word and aggregate them based on id
-    tweet_scores = filter_scores.map(lambda x: (x[0], x[1][1][1])) \
-        .reduceByKey(lambda score1, score2: score1 + score2)
+    tweet_scores = filtered_word_scores.groupBy("_unit_id").agg(F.sum("sentiment").alias("total_sentiment"))
 
-    # Map sentiment scores to sentiment labels
-    tweet_sentiment_labels = tweet_scores.mapValues(score_to_label)
+    # Map sentiment scores to sentiment labels based on certain conditions
+    tweet_sentiment_labels = tweet_scores.select("_unit_id", F.when(F.col("total_sentiment") > 0, "positive")
+                                                 .when(F.col("total_sentiment") < 0, "negative")
+                                                 .otherwise("neutral").alias("sentiment_label"))
 
     """Preprocessing of sentiment_gold"""
-
     # Filter out tweets where tweet[17] is empty or null (*Remove after preprocessing implemented)
-    filtered_tweets = validParts.filter(lambda tweet: tweet[17] is not None and tweet[17] != '')
+    filtered_tweets = tweets.filter(tweets["airline_sentiment_gold"].isNotNull() | (tweets["airline_sentiment_gold"] != ''))
 
-    # Split the sentiment_gold texts into individual words
-    sentiment_gold = filtered_tweets.map(lambda tweet: (tweet[3], tweet[17].split(" ")))
-
-    print(sentiment_gold.take(10))
     # Join tweet_sentiment_labels with sentiment_gold_filtered
-    joined_data = tweet_sentiment_labels.join(sentiment_gold)
+    joined_data = tweet_sentiment_labels.join(filtered_tweets)
+
+    joined_data.write.csv(path="../data/results.csv", mode="overwrite", header=True)
 
     # Calculate accuracy
     # Get the total count of tweets
@@ -197,14 +173,19 @@ def run():
     print("Total tweets = ", total_tweets)
 
     # Get the count of tweets that match based on sentiment label
-    correct_predictions = joined_data.filter(lambda x: x[1][0] == x[1][1][0]).count()
+    correct_predictions = joined_data.filter(
+        joined_data["sentiment_label"] == joined_data["airline_sentiment_gold"]).count()
 
     print("Correctly predicted tweet sentiment = ", correct_predictions)
-    accuracy = correct_predictions / total_tweets
 
-    with open("../results/task5/accuracy.csv", "w") as file:
-        file.write("accuracy\n")
-        file.write(str(accuracy))
+    accuracy = correct_predictions / total_tweets
+    print("Accuracy of prediction = ", accuracy)
+
+    # with open("../results/task5/accuracy.csv", "w") as file:
+    #     file.write("accuracy\n")
+    #     file.write(str(accuracy))
+
+    print("Analysis Completed")
 
 
 if __name__ == "__main__":
