@@ -11,7 +11,7 @@ from utils import load_tweets, convert_data_type
 
 def select_columns(dataframe):
     selected_columns = ["_unit_id", "_channel", "_trust", "_country", "airline", "airline_sentiment", "text",
-                        "airline_sentiment_gold", "negativereason", "tweet_coord", "tweet_location"]
+                        "airline_sentiment_gold", "negativereason", "tweet_coord", "tweet_location", "tweet_created"]
 
     return dataframe.select(selected_columns)
 
