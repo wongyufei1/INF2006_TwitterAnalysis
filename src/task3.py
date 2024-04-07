@@ -33,7 +33,7 @@ def run():
 
     spark = SparkSession.builder.appName("task3").getOrCreate()
 
-    tweets = load_tweets(spark, "../data/Twitter_Airline Dataset")
+    tweets = load_tweets(spark, "../results/task1/*.csv")
     country_codes = load_country_codes(spark, "../data/ISO-3166-alpha3.tsv")
 
     tweets.printSchema()
