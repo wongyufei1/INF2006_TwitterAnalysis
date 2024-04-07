@@ -5,7 +5,7 @@ import sys
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import count,col
-from src.utils import load_tweets, load_country_codes
+from utils import load_tweets, load_country_codes
 
 
 def compute_most_complaints_by_country(tweets, country_codes):

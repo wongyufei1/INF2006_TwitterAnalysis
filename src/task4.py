@@ -6,7 +6,7 @@ import sys
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import median, mean, round
 
-from src.utils import load_tweets, convert_data_type
+from utils import load_tweets, convert_data_type
 
 
 def compute_channel_trustpoints_stats(tweets):
