@@ -21,7 +21,7 @@ def time_analysis(tweets):
     tweet_counts = tweets.groupBy(year("tweet_created").alias("Year"),
                                   month("tweet_created").alias("Month"),
                                   dayofmonth("tweet_created").alias("Day"),
-                                  "airline_sentiment_gold") \
+                                  "airline", "airline_sentiment_gold") \
         .agg(count("_unit_id").alias("Sentiment Count"))
 
     # Add a column to represent sentiment label as a string (positive, negative, neutral)
@@ -32,11 +32,11 @@ def time_analysis(tweets):
                                            .otherwise("neutral"))
 
     # Aggregate the counts for each sentiment label for the same day
-    tweet_counts = tweet_counts.groupBy("Year", "Month", "Day", "airline_sentiment_gold") \
+    tweet_counts = tweet_counts.groupBy("Year", "Month", "Day", "airline", "airline_sentiment_gold") \
         .agg(sum("Sentiment Count").alias("Total Sentiment Count"))
 
     # Order by the date
-    tweet_counts = tweet_counts.orderBy("Year", "Month", "Day", "airline_sentiment_gold")
+    tweet_counts = tweet_counts.orderBy("Year", "Month", "Day", "airline", "airline_sentiment_gold")
 
     return tweet_counts
 
@@ -50,8 +50,7 @@ def run():
 
     tweet_counts = time_analysis(tweets)
 
-    # tweet_counts.show()
-
+    tweet_counts.show()
     # save results
     tweet_counts.coalesce(1).write.csv(path="../results/task6.2", mode="overwrite", header=True)
 
