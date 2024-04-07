@@ -1,5 +1,5 @@
 country,airline,count
-Algeria,American,1101
+Algeria,American,1100
 Argentina,American,2580
 Australia,United,630
 Austria,United,40
@@ -7,9 +7,9 @@ Bahamas,United,70
 Bahamas,American,70
 Bangladesh,American,460
 Belgium,United,500
-Bosnia and Herzegovina,American,11073
-Brazil,American,3022
-Bulgaria,American,1981
+Bosnia and Herzegovina,American,11070
+Brazil,American,3020
+Bulgaria,American,1980
 Canada,United,7370
 Chile,United,1290
 Colombia,United,260
@@ -22,23 +22,23 @@ Estonia,United,390
 Finland,American,560
 France,United,620
 Germany,United,1410
-Greece,American,2751
+Greece,American,2750
 Hong Kong,United,570
 Hungary,American,1970
 India,United,22190
 Indonesia,United,9500
 Ireland,American,900
 Israel,United,600
-Italy,American,4893
+Italy,American,4890
 Japan,United,330
 Jordan,Delta,40
 Jordan,American,40
 Jordan,Southwest,40
-Kenya,American,471
+Kenya,American,470
 Kuwait,American,40
 Latvia,American,30
 Malaysia,United,1700
-Mexico,American,4941
+Mexico,American,4940
 Morocco,United,1010
 Nepal,American,40
 Netherlands,United,660
@@ -50,8 +50,8 @@ Poland,American,970
 Portugal,American,3130
 Puerto Rico,American,320
 Romania,United,3900
-Russian Federation,American,2231
-Serbia,American,10632
+Russian Federation,American,2230
+Serbia,American,10630
 Singapore,United,1940
 Slovakia,American,1290
 South Africa,United,90
@@ -60,12 +60,12 @@ Sweden,United,160
 Switzerland,United,820
 "Tanzania, United Republic of",United,30
 "Tanzania, United Republic of",Southwest,30
-Turkey,American,3261
+Turkey,American,3260
 Uganda,United,270
-Ukraine,American,1211
+Ukraine,American,1210
 United Arab Emirates,United,830
 United Kingdom of Great Britain and Northern Ireland,United,5540
 United States of America,United,4260
-Uruguay,American,2021
+Uruguay,American,2020
 Venezuela (Bolivarian Republic of),United,4890
 Viet Nam,United,7270
