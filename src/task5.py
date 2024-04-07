@@ -137,7 +137,7 @@ def run():
     spark = SparkSession.builder.appName("task5").getOrCreate()
 
     # Load dataset
-    tweets = load_tweets(spark, "../data/Twitter_Airline Dataset")
+    tweets = load_tweets(spark, "../results/task1/*.csv")
     tweets.printSchema()
     """Obtaining sentiment scores for each tweet in tweet column"""
 
