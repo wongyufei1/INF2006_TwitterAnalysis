@@ -26,7 +26,7 @@ def run():
     os.environ['PYSPARK_PYTHON'] = sys.executable
     os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 
-    spark = SparkSession.builder.appName("task6").getOrCreate()
+    spark = SparkSession.builder.appName("task6.1").getOrCreate()
     tweets = load_tweets(spark, "../data/Twitter_Airline Dataset")
     country_codes = load_country_codes(spark, "../data/ISO-3166-alpha3.tsv")
 
@@ -36,7 +36,7 @@ def run():
     popular_airlines = compute_popular_airline_by_country(tweets, country_codes)
 
     popular_airlines.show()
-    popular_airlines.coalesce(1).write.csv(path="../results/task6", mode="overwrite", header=True)
+    popular_airlines.coalesce(1).write.csv(path="../results/task6.1", mode="overwrite", header=True)
 
 
 if __name__ == "__main__":
