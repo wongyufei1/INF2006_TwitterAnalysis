@@ -2,30 +2,29 @@ US Airways	CSProblem
 US Airways	canttell
 US Airways	late
 US Airways	cancel
-US Airways	lostluggae
+US Airways	airplanestaff
 Southwest	CSProblem
-Southwest	badflight
+Southwest	cancel
 Southwest	canttell
 Southwest	late
-Southwest	cancel
-Delta	late
+Southwest	badflight
 Delta	CSProblem
-Delta	cancel
+Delta	late
 Delta	canttell
 Delta	longlines
+Delta	badflight
 United	CSProblem
-United	canttell
 United	late
-United	lostluggae
+United	canttell
 United	badflight
+United	lostluggae
 American	CSProblem
+American	late
 American	airplanestaff
 American	canttell
 American	cancel
-American	lostluggae
 Virgin America	CSProblem
 Virgin America	canttell
 Virgin America	late
 Virgin America	booking
-Virgin America	cancel
-airline	negativereason
+Virgin America	badflight

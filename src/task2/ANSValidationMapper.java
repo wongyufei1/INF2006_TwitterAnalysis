@@ -1,3 +1,5 @@
+// Contributor: Derrick Lim
+
 package topnegativereason;
 
 import java.io.IOException;
@@ -15,7 +17,7 @@ public class ANSValidationMapper extends Mapper<LongWritable, Text, LongWritable
 
 	private boolean isValid(String line) {
 		String[] parts = line.split(",");
-		if (parts.length == 27) {
+		if (parts.length == 10) {
 			return true;
 		} else {
 			return false;
