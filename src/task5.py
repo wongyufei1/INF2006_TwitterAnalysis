@@ -165,8 +165,6 @@ def run():
     # Join tweet_sentiment_labels with sentiment_gold_filtered
     joined_data = tweet_sentiment_labels.join(filtered_tweets)
 
-    joined_data.write.csv(path="../data/results.csv", mode="overwrite", header=True)
-
     # Calculate accuracy
     # Get the total count of tweets
     total_tweets = joined_data.count()
