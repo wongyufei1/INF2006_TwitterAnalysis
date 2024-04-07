@@ -1,0 +1,152 @@
+Year,Month,Day,airline,airline_sentiment_gold,Total Sentiment Count
+2015,2,16,Delta,neutral,60
+2015,2,16,United,neutral,60
+2015,2,17,Delta,negative,3150
+2015,2,17,Delta,neutral,7860
+2015,2,17,Southwest,negative,6100
+2015,2,17,Southwest,neutral,14550
+2015,2,17,US Airways,neutral,9330
+2015,2,17,United,negative,2850
+2015,2,17,United,neutral,11850
+2015,2,17,Virgin America,neutral,1620
+2015,2,18,American,negative,3070
+2015,2,18,Delta,negative,3220
+2015,2,18,Delta,neutral,8010
+2015,2,18,Southwest,neutral,8760
+2015,2,18,US Airways,neutral,9510
+2015,2,18,United,neutral,12180
+2015,2,18,Virgin America,neutral,1800
+2015,2,19,American,positive,2900
+2015,2,19,Delta,negative,2770
+2015,2,19,Delta,neutral,8460
+2015,2,19,Southwest,negative,2770
+2015,2,19,Southwest,neutral,9480
+2015,2,19,US Airways,neutral,8340
+2015,2,19,US Airways,positive,3120
+2015,2,19,United,negative,3050
+2015,2,19,United,neutral,12750
+2015,2,19,Virgin America,neutral,2100
+2015,2,20,American,negative,2970
+2015,2,20,Delta,negative,6030
+2015,2,20,Delta,neutral,7470
+2015,2,20,Southwest,neutral,12630
+2015,2,20,US Airways,neutral,9990
+2015,2,20,United,negative,3030
+2015,2,20,United,neutral,15750
+2015,2,20,Virgin America,neutral,2100
+2015,2,21,American,negative,2860
+2015,2,21,Delta,neutral,7290
+2015,2,21,Southwest,negative,5960
+2015,2,21,Southwest,neutral,11040
+2015,2,21,US Airways,neutral,10800
+2015,2,21,United,negative,5720
+2015,2,21,United,neutral,18080
+2015,2,21,Virgin America,neutral,2310
+2015,2,22,American,negative,15440
+2015,2,22,American,neutral,29410
+2015,2,22,American,positive,2980
+2015,2,22,Delta,neutral,12240
+2015,2,22,Southwest,neutral,8370
+2015,2,22,US Airways,neutral,19440
+2015,2,22,United,negative,3100
+2015,2,22,United,neutral,21060
+2015,2,22,Virgin America,neutral,1590
+2015,2,23,American,negative,6050
+2015,2,23,American,neutral,34110
+2015,2,23,Delta,neutral,11730
+2015,2,23,Southwest,neutral,8250
+2015,2,23,Southwest,positive,2920
+2015,2,23,US Airways,negative,5790
+2015,2,23,US Airways,neutral,14580
+2015,2,23,United,negative,3170
+2015,2,23,United,neutral,19200
+2015,2,23,Virgin America,neutral,2664
+2015,2,24,American,negative,293
+2015,2,24,American,neutral,1869
+2015,2,24,American,positive,297
+2015,2,24,Delta,negative,585
+2015,2,24,Delta,neutral,333
+2015,2,24,Southwest,neutral,549
+2015,2,24,US Airways,neutral,531
+2015,2,24,United,neutral,648
+2015,2,24,Virgin America,neutral,87
+2015,2,25,American,negative,293
+2015,2,25,American,neutral,1869
+2015,2,25,American,positive,297
+2015,2,25,Delta,negative,585
+2015,2,25,Delta,neutral,333
+2015,2,25,Southwest,neutral,549
+2015,2,25,US Airways,neutral,531
+2015,2,25,United,neutral,648
+2015,2,25,Virgin America,neutral,79
+2015,2,27,American,negative,293
+2015,2,27,American,neutral,1869
+2015,2,27,American,positive,297
+2015,2,27,Delta,negative,585
+2015,2,27,Delta,neutral,333
+2015,2,27,Southwest,neutral,549
+2015,2,27,US Airways,neutral,531
+2015,2,27,United,neutral,648
+2015,2,27,Virgin America,neutral,66
+2015,2,28,American,negative,293
+2015,2,28,American,neutral,1869
+2015,2,28,American,positive,297
+2015,2,28,Delta,negative,585
+2015,2,28,Delta,neutral,333
+2015,2,28,Southwest,neutral,549
+2015,2,28,US Airways,neutral,531
+2015,2,28,United,neutral,648
+2015,2,28,Virgin America,neutral,62
+2015,3,1,American,negative,293
+2015,3,1,American,neutral,1869
+2015,3,1,American,positive,297
+2015,3,1,Delta,negative,585
+2015,3,1,Delta,neutral,333
+2015,3,1,Southwest,neutral,549
+2015,3,1,US Airways,neutral,531
+2015,3,1,United,neutral,648
+2015,3,1,Virgin America,neutral,60
+2015,3,2,American,negative,293
+2015,3,2,American,neutral,1869
+2015,3,2,American,positive,297
+2015,3,2,Delta,negative,585
+2015,3,2,Delta,neutral,333
+2015,3,2,Southwest,neutral,549
+2015,3,2,US Airways,neutral,531
+2015,3,2,United,neutral,648
+2015,3,2,Virgin America,neutral,48
+2015,3,3,American,negative,293
+2015,3,3,American,neutral,1869
+2015,3,3,American,positive,297
+2015,3,3,Delta,negative,585
+2015,3,3,Delta,neutral,333
+2015,3,3,Southwest,neutral,549
+2015,3,3,US Airways,neutral,531
+2015,3,3,United,neutral,648
+2015,3,3,Virgin America,neutral,50
+2015,3,4,American,negative,293
+2015,3,4,American,neutral,1869
+2015,3,4,American,positive,297
+2015,3,4,Delta,negative,585
+2015,3,4,Delta,neutral,333
+2015,3,4,Southwest,neutral,549
+2015,3,4,US Airways,neutral,531
+2015,3,4,United,neutral,648
+2015,3,4,Virgin America,neutral,46
+2015,3,5,American,negative,293
+2015,3,5,American,neutral,1869
+2015,3,5,American,positive,297
+2015,3,5,Delta,negative,585
+2015,3,5,Delta,neutral,333
+2015,3,5,Southwest,neutral,549
+2015,3,5,US Airways,neutral,531
+2015,3,5,United,neutral,648
+2015,3,5,Virgin America,neutral,50
+2015,3,6,American,negative,293
+2015,3,6,American,neutral,1869
+2015,3,6,American,positive,297
+2015,3,6,Delta,negative,585
+2015,3,6,Delta,neutral,333
+2015,3,6,Southwest,neutral,549
+2015,3,6,US Airways,neutral,531
+2015,3,6,United,neutral,648

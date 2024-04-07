@@ -5,7 +5,7 @@ import sys
 from pyspark.sql import SparkSession, Window
 from pyspark.sql.functions import count, rank, col
 
-from src.utils import load_tweets, load_country_codes
+from utils import load_tweets, load_country_codes
 
 
 def compute_popular_airline_by_country(tweets, country_codes):
@@ -41,7 +41,7 @@ def run():
     popular_airlines.show(popular_airlines.count())
 
     # save results
-    popular_airlines.coalesce(1).write.csv(path="../results/task6.2", mode="overwrite", header=True)
+    popular_airlines.coalesce(1).write.csv(path="../results/task6.1", mode="overwrite", header=True)
 
 
 if __name__ == "__main__":
